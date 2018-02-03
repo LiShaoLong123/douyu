@@ -1,0 +1,11 @@
+status == fail success loading  状态 : 失败/成功/加载中..
+--通常用于页面加载时的状态码
+
+components 组件
+import ... from ....引入所需的组件/JS
+export default 设置默认项
+refresh 刷新
+mixins:[share] 混合
+methods:方法
+mounted:渲染之后
+destoryed:销毁

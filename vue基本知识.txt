@@ -1,0 +1,209 @@
+index.html文件是根目录,一般可以把一些全局的样式也在这个文件中
+
+<---------------------------------------------------------->
+main.js文件是vue文件的主入口,基本的模块都是从这里通过import .. from  ..  导入
+建议:如果有相同的函数可以通过创建一个外部的.js文件,通过引入直接调用.
+1.创建newfile.js文件(和main.js同级),创建一个空对象,通过给空对象添加方法,方便调用.
+2.设置默认的出口文件export default newfile;
+3.在main.js中通过import newfile from './newfile'引入,设置的newfile就是你调用函数的对象.
+4.在main.js中直接调用对象的方法
+5.过滤器的函数也可以通过这种方式进行调用,
+好处:简化main.js的代码量,方便阅读.
+
+
+
+
+
+同级的App.vue文件,相当于父组件,所有的子组件都可以通过路由在这里进行渲染.	<router-view></router-view>
+
+1.通过设置import SideMenu from"./components/SideMenu";
+获取子组件,在页面中渲染出来
+2.通过设置中线bus,让不同的子组件进行事件的传递
+
+子组件通过$.emit()进行事件的传递,传递给父组件
+hideClick:function(){
+	this.$emit("hideMenu")
+}
+
+
+父组件接受子组件传递的事件,并触发事件.
+mounted: function() {
+	bus.$on("menuClick", this.showMenu);
+}
+
+
+<---------------------------------------------------------->
+
+给组件添加过渡效果:
+1.用<transition name="sideMenuAni"></transition>包裹要过渡的元素
+2.添加name 
+3.设置
+	.sideMenuApi-enter-active,
+	.sideMenuApi-leaver-active {
+		transition: all 1s;
+	}
+	
+	.sideMenuApi-enter,
+	.sideMenuApi-leaver-active {
+		transform: translateX(100%);
+		opacity: 0;
+	}
+
+<---------------------------------------------------------->
+
+路由:
+1.引入所需要的页面,在pages页面下
+import Hot from "../pages/Hot"
+import Category from "../pages/Category"
+import Recommend from "../pages/Recommend"
+import Usercenter from "../pages/Usercenter"
+
+通过路由控制页面的跳转页面
+routes: [
+    {
+      path: '/', 
+      component: Hot
+    },
+    {
+      path: '/cat', 
+      component: Category
+    },
+    {
+      path: '/rec', 
+      component: Recommend
+    },
+    {
+      path: '/user', 
+      component: Usercenter
+    },
+  ]
+
+通过点击进行跳转,用
+<router-link to="/">
+<li class="clearfix">
+首页 
+<span class="fa fa-angle-right"></span>
+</li>
+</router-link> 包裹
+
+<---------------------------------------------------------->
+在pages页面下建立所需要跳转的页面,把组件引入到页面中
+添加所需要的子组件,
+当有相同的部分是可以通过添加 mixins:[share] 
+
+先获取所需要的子组件,把它添加到一个对象中,
+这个对象包含的组件为(子组件)共同的部分,
+也可以通过方法调整CSS样式
+
+设置默认的出口文件
+
+
+import Headernav from "../components/Header"
+
+var share = {
+			components:{
+			Headernav
+		},
+		mounted:function(){
+			this.$el.style.paddingTop = "44px";
+		}
+}
+
+export default share;
+
+
+<---------------------------------------------------------->
+
+
+components文件夹下放置所需要的子组件,文件名.vue
+assets文件夹下防止所需要的动态图片/或者图片
+import placeholder from "../assets/placeholder.gif"
+在所需要动态图片的文件中引入动态图片的方法
+
+所有要操作的文件都在src文件夹下
+static文件夹下的文件为所需要引用的文件,可以放置引用的字体,图片,js文件等,可以通过在index.html中进行引用.
+
+
+
+在config文件夹中:index.js
+通过proxyTable:{  }中代理接口发送请求信息,获取响应
+    proxyTable: {
+    	
+    	"/douyuapi":{
+    		target:'http://open.douyucdn.cn',
+    		changeOrigin:true,
+    		pathRewrite:{
+    			'^/douyuapi':''
+    		}
+    	}
+    }
+
+
+
+
+
+components文件中:
+header.vue--->类似于导航栏
+homeitem.vue-->类似与页面的主体位置(主要内容)
+sidemenu.vue-->类似于侧栏的主页面
+
+pages文件夹中:
+category.vue-->分类
+hot.vue-->热门
+recommend.vue-->推荐
+usercenter.vue-->个人中心
+
+
+
+
+
+		/*文字过多变为三个点*/
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
